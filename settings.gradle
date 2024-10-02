@@ -1,0 +1,5 @@
+rootProject.name = 'modular-monolith'
+
+include 'inventory'
+include 'inventory-lib'
+include 'commerce'

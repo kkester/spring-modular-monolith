@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: monomart
+  datasource:
+    url: jdbc:postgresql://${POSTGRES_HOST:localhost}:${POSTGRES_PORT:5432}/${POSTGRES_DB:monodatabase}
+    username: ${POSTGRES_USERNAME:appuser}
+    password: ${POSTGRES_PASSWORD:secret}
+  flyway:
+    locations: db/migration, db/data/prod
+
+management:
+  tracing:
+    enabled: true
+    sampling.probability: 1.0
+  zipkin.tracing.endpoint: 'http://${ZIPKIN_HOST:localhost:9411}/api/v2/spans'
+  endpoints:
+    web:
+      exposure:
+        include: health,prometheus,metrics,info
