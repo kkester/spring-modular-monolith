@@ -1,11 +1,10 @@
 package mart.mono.inventory.catalog;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import mart.mono.inventory.lib.Catalog;
 
-import java.util.UUID;
+import java.util.List;
 
-@Repository
-public interface CatalogRepository extends JpaRepository<CatalogEntity, UUID> {
-
+public interface CatalogRepository {
+    List<Catalog> findAll();
+    Catalog findById(String catalogId);
 }

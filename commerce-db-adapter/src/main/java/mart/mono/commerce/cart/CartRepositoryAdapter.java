@@ -1,7 +1,7 @@
 package mart.mono.commerce.cart;
 
 import lombok.RequiredArgsConstructor;
-import mart.mono.inventory.lib.IProductService;
+import mart.mono.inventory.product.GetProduct;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -13,7 +13,7 @@ import java.util.UUID;
 public class CartRepositoryAdapter implements CartRepository {
 
     private final CartJpaRepository cartJpaRepository;
-    private final IProductService productService;
+    private final GetProduct productRetriever;
 
     @Override
     public List<CartItem> findAll() {
@@ -54,7 +54,7 @@ public class CartRepositoryAdapter implements CartRepository {
         return CartItem.builder()
                 .id(cartItemEntity.getId())
                 .quantity(cartItemEntity.getQuantity())
-                .product(productService.getProductById(cartItemEntity.getProductId()))
+                .product(productRetriever.getProductById(cartItemEntity.getProductId()))
                 .build();
     }
 }

@@ -1,7 +1,7 @@
 package mart.mono.inventory.product;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import mart.mono.inventory.lib.IProductService;
 import mart.mono.inventory.lib.Product;
 import mart.mono.inventory.lib.PurchaseEvent;
 import org.springframework.http.HttpStatusCode;
@@ -12,54 +12,34 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 @Slf4j
-public class ProductService implements IProductService {
+public class ProductService implements PurchaseProductNotifier, GetProduct {
 
     private final ProductRepository productRepository;
 
-    public ProductService(ProductRepository productRepository) {
-        this.productRepository = productRepository;
-    }
-
     public Product getProductById(UUID productId) {
         return productRepository.findById(productId)
-            .map(this::toProduct)
             .orElseThrow(() -> new ResponseStatusException(HttpStatusCode.valueOf(404)));
     }
 
     public List<Product> getForCatalog(String catalogKey) {
-        return productRepository.findByCatalogId(catalogKey).stream()
-            .map(this::toProduct)
-            .toList();
+        return productRepository.findByCatalogId(catalogKey);
     }
 
     public List<Product> getAll() {
-        return productRepository.findAll().stream()
-            .map(this::toProduct)
-            .toList();
-    }
-
-    private Product toProduct(ProductEntity productEntity) {
-        return Product.builder()
-            .id(productEntity.getId())
-            .name(productEntity.getName())
-            .description(productEntity.getDescription())
-            .imageSrc(productEntity.getImageSrc())
-            .imageAlt(productEntity.getImageAlt())
-            .quantity(productEntity.getQuantity())
-            .price(productEntity.getPrice())
-            .build();
+        return productRepository.findAll();
     }
 
     public void decrementProductQuantity(UUID productId, int quantity) {
-        productRepository.findById(productId).ifPresent(productEntity -> {
-            int currentQuantity = productEntity.getQuantity();
+        productRepository.findById(productId).ifPresent(product -> {
+            int currentQuantity = product.getQuantity();
             int newQuantity = currentQuantity - quantity;
             if (newQuantity < 0) {
                 return;
             }
-            productEntity.setQuantity(newQuantity);
-            productRepository.save(productEntity);
+            product.setQuantity(newQuantity);
+            productRepository.updateQuantity(product);
         });
     }
 

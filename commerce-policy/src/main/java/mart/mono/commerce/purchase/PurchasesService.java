@@ -1,7 +1,7 @@
 package mart.mono.commerce.purchase;
 
+import lombok.RequiredArgsConstructor;
 import mart.mono.commerce.cart.CartItem;
-import mart.mono.inventory.lib.IProductService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,16 +10,12 @@ import java.util.UUID;
 import static java.util.Collections.emptyList;
 
 @Service
+@RequiredArgsConstructor
 public class PurchasesService {
 
     private final PurchasesRepository purchasesRepository;
 
-    private final IProductService productService;
-
-    public PurchasesService(PurchasesRepository purchasesRepository, IProductService productService) {
-        this.purchasesRepository = purchasesRepository;
-        this.productService = productService;
-    }
+    private final PurchaseEventPublisher purchaseEventPublisher;
 
     public List<Purchase> getAll() {
         return purchasesRepository.findAll();
@@ -29,7 +25,7 @@ public class PurchasesService {
         try {
             purchasesRepository.save(new Purchase(UUID.randomUUID(), emptyList()));
             cartItems.forEach(cartItem -> {
-                productService.decrementProductQuantity(cartItem.getProduct().getId(), cartItem.getQuantity());
+                purchaseEventPublisher.productPurchased(cartItem.getProduct().getId(), cartItem.getQuantity());
             });
             return true;
         } catch (Exception e) {

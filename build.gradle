@@ -25,8 +25,11 @@ ext {
 dependencies {
     implementation(project(':inventory-policy'))
     implementation(project(':inventory-api-adapter'))
+    implementation(project(':inventory-db-adapter'))
+    implementation(project(':inventory-event-adapter'))
     implementation(project(':commerce-policy'))
     implementation(project(':commerce-api-adapter'))
+    implementation(project(':commerce-event-adapter'))
     implementation(project(':commerce-db-adapter'))
     implementation(project(':inventory-lib'))
 

@@ -2,7 +2,6 @@ package mart.mono.commerce.cart;
 
 import lombok.RequiredArgsConstructor;
 import mart.mono.commerce.purchase.PurchasesService;
-import mart.mono.inventory.lib.IProductService;
 import mart.mono.inventory.lib.Product;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +14,6 @@ import java.util.UUID;
 public class CartService {
     private final CartRepository cartRepository;
     private final PurchasesService purchasesService;
-    private final IProductService productService;
 
     public List<CartItem> get() {
         return cartRepository.findAll();

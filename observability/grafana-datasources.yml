@@ -17,8 +17,8 @@ datasources:
       tracesToLogsV2:
         customQuery: true
         datasourceUid: my_loki_uid
-        spanStartTimeShift: "1h"
-        spanEndTimeShift: "-1h"
+        spanStartTimeShift: "-1h"
+        spanEndTimeShift: "1h"
         query: '{traceID="$${__span.traceId}", spanID="$${__span.spanId}"}'
   - name: Loki
     uid: my_loki_uid

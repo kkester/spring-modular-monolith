@@ -1,12 +1,14 @@
 package mart.mono.inventory.product;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import mart.mono.inventory.lib.Product;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
-@Repository
-public interface ProductRepository extends JpaRepository<ProductEntity, UUID> {
-    List<ProductEntity> findByCatalogId(String catalogId);
+public interface ProductRepository {
+    Optional<Product> findById(UUID productId);
+    List<Product> findByCatalogId(String catalogKey);
+    List<Product> findAll();
+    void updateQuantity(Product product);
 }
