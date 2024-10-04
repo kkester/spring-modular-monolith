@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -22,7 +23,12 @@ public class PurchaseEntity {
     @GenericGenerator(name = "uuid-hibernate-generator", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
 
-    @OneToMany
-    private List<PurchasedItemEntity> items;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "purchase")
+    @Builder.Default
+    private List<PurchasedItemEntity> items = new ArrayList<>();
 
+    public void applyItems(List<PurchasedItemEntity> purchasedItemEntities) {
+        items.addAll(purchasedItemEntities);
+        purchasedItemEntities.forEach(item -> item.setPurchase(this));
+    }
 }

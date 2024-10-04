@@ -1,9 +1,6 @@
 package mart.mono.commerce.purchase;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -27,4 +24,7 @@ public class PurchasedItemEntity {
     private UUID productId;
 
     private Integer quantity;
+
+    @ManyToOne
+    private PurchaseEntity purchase;
 }

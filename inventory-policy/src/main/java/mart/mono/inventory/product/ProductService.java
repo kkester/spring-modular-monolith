@@ -1,5 +1,6 @@
 package mart.mono.inventory.product;
 
+import io.micrometer.tracing.annotation.NewSpan;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import mart.mono.inventory.lib.Product;
@@ -14,11 +15,13 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class ProductService implements PurchaseProductNotifier, GetProduct {
+public class ProductService implements PurchaseProductNotifier, GetProducts {
 
     private final ProductRepository productRepository;
 
+    @NewSpan("product-by-id")
     public Product getProductById(UUID productId) {
+        log.info("Getting product by id: {}", productId);
         return productRepository.findById(productId)
             .orElseThrow(() -> new ResponseStatusException(HttpStatusCode.valueOf(404)));
     }
@@ -43,6 +46,7 @@ public class ProductService implements PurchaseProductNotifier, GetProduct {
         });
     }
 
+    @NewSpan
     public void processPurchaseEvent(PurchaseEvent purchaseEvent) {
         log.info("Processing Event {}", purchaseEvent);
         decrementProductQuantity(purchaseEvent.getProductId(), purchaseEvent.getQuantity());

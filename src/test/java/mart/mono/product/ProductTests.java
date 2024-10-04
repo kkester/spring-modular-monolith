@@ -1,10 +1,9 @@
-package mart.mono.inventory;
+package mart.mono.product;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.Matchers.equalTo;
@@ -15,7 +14,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
-@ActiveProfiles("test")
 @AutoConfigureMockMvc
 public class ProductTests {
 
@@ -27,7 +25,7 @@ public class ProductTests {
 
         mockMvc.perform(get("/api/products?catalog={catalog}", "electronics"))
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$.length()", equalTo(1)))
+            .andExpect(jsonPath("$.length()", equalTo(2)))
             .andExpect(jsonPath("$[0]", hasKey("id")))
             .andExpect(jsonPath("$[0]", hasKey("catalog")))
             .andExpect(jsonPath("$[0].catalog", hasKey("id")))
@@ -46,7 +44,7 @@ public class ProductTests {
 
         mockMvc.perform(get("/api/catalogs"))
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$.length()", equalTo(1)))
+            .andExpect(jsonPath("$.length()", equalTo(4)))
             .andExpect(jsonPath("$[0]", hasKey("id")))
             .andExpect(jsonPath("$[0]", hasKey("displayName")))
         ;

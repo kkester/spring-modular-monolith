@@ -7,23 +7,22 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.UUID;
 
-import static java.util.Collections.emptyList;
-
 @Service
 @RequiredArgsConstructor
-public class PurchasesService {
+public class PurchasesService implements GetPurchases {
 
-    private final PurchasesRepository purchasesRepository;
-
+    private final PurchaseQueryRepository purchaseQueryRepository;
+    private final PurchaseCommandRepository purchaseCommandRepository;
     private final PurchaseEventPublisher purchaseEventPublisher;
 
     public List<Purchase> getAll() {
-        return purchasesRepository.findAll();
+        return purchaseQueryRepository.findAll();
     }
 
     public boolean purchase(List<CartItem> cartItems) {
         try {
-            purchasesRepository.save(new Purchase(UUID.randomUUID(), emptyList()));
+            List<PurchasedItem> purchasedItems = cartItems.stream().map(this::toItem).toList();
+            purchaseCommandRepository.save(Purchase.builder().items(purchasedItems).build());
             cartItems.forEach(cartItem -> {
                 purchaseEventPublisher.productPurchased(cartItem.getProduct().getId(), cartItem.getQuantity());
             });
@@ -31,5 +30,12 @@ public class PurchasesService {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    private PurchasedItem toItem(CartItem cartItem) {
+        return PurchasedItem.builder()
+                .productId(cartItem.getProduct().getId())
+                .quantity(cartItem.getQuantity())
+                .build();
     }
 }

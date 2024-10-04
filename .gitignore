@@ -1,6 +1,7 @@
 /**/.gradle
 /**/build/
 /postgres-data
+/tempo-data/**
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**
 !**/src/test/**

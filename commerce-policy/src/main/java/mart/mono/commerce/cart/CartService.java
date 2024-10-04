@@ -11,35 +11,37 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class CartService {
-    private final CartRepository cartRepository;
+public class CartService implements GetCarts, CartCommands {
+
+    private final CartQueryRepository cartQueryRepository;
+    private final CartCommandRepository cartCommandRepository;
     private final PurchasesService purchasesService;
 
     public List<CartItem> get() {
-        return cartRepository.findAll();
+        return cartQueryRepository.findAll();
     }
 
     public CartItem add(Product product) {
-        return cartRepository.save(CartItem.builder()
+        return cartCommandRepository.save(CartItem.builder()
             .product(Product.builder().id(product.getId()).build())
             .quantity(1)
             .build());
     }
 
     public void remove(UUID cartItemId) {
-        Optional<CartItem> cartItem = cartRepository.findById(cartItemId);
-        cartItem.ifPresent(cartRepository::delete);
+        Optional<CartItem> cartItem = cartQueryRepository.findById(cartItemId);
+        cartItem.ifPresent(cartCommandRepository::delete);
     }
 
     public void removeAll() {
-        cartRepository.deleteAll();
+        cartCommandRepository.deleteAll();
     }
 
     public void checkOut() {
-        List<CartItem> cart = cartRepository.findAll();
+        List<CartItem> cart = cartQueryRepository.findAll();
         boolean purchaseSuccess = purchasesService.purchase(cart);
         if (purchaseSuccess) {
-            cartRepository.deleteAll();
+            cartCommandRepository.deleteAll();
         }
     }
 }

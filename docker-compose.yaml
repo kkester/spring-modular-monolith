@@ -46,3 +46,13 @@ services:
     ports:
       - "3100:3100"
     command: -config.file=/etc/loki/local-config.yaml
+
+  monomart:
+    image: modular-monolith:1.0.0
+    container_name: 'monomart'
+    environment:
+      - ZIPKIN_HOST=tempo:9411
+      - LOKI_HOST=loki:3100
+      - POSTGRES_HOST=postgres
+    ports:
+      - 8080:8080

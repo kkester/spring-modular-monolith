@@ -2,15 +2,17 @@ package mart.mono.commerce.purchase;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class PurchasesRepositoryAdapter implements PurchasesRepository {
+public class PurchasesRepositoryAdapter implements PurchaseQueryRepository, PurchaseCommandRepository {
 
     private final PurchasesJpaRepository purchasesJpaRepository;
 
+    @Transactional
     @Override
     public List<Purchase> findAll() {
         return purchasesJpaRepository.findAll().stream()
@@ -26,24 +28,31 @@ public class PurchasesRepositoryAdapter implements PurchasesRepository {
     private Purchase toPurchase(PurchaseEntity purchaseEntity) {
         return Purchase.builder()
                 .id(purchaseEntity.getId())
-                .items(purchaseEntity.getItems().stream().map(this::toItem).toList())
+                .items(purchaseEntity.getItems().stream().map(this::toPurchaseItem).toList())
                 .build();
     }
 
-    private PurchasedItem toItem(PurchasedItemEntity purchasedItemEntity) {
+    private PurchasedItem toPurchaseItem(PurchasedItemEntity purchasedItemEntity) {
         return PurchasedItem.builder()
+                .id(purchasedItemEntity.getId())
+                .productId(purchasedItemEntity.getProductId())
+                .quantity(purchasedItemEntity.getQuantity())
                 .build();
     }
 
     private PurchaseEntity toEntity(Purchase purchase) {
-        return PurchaseEntity.builder()
+        List<PurchasedItemEntity> purchasedItemEntities = purchase.getItems().stream().map(this::toItemEntity).toList();
+        PurchaseEntity purchaseEntity = PurchaseEntity.builder()
                 .id(purchase.getId())
-                .items(purchase.getItems().stream().map(this::toItemEntity).toList())
                 .build();
+        purchaseEntity.applyItems(purchasedItemEntities);
+        return purchaseEntity;
     }
 
     private PurchasedItemEntity toItemEntity(PurchasedItem purchasedItem) {
         return PurchasedItemEntity.builder()
+                .productId(purchasedItem.getProductId())
+                .quantity(purchasedItem.getQuantity())
                 .build();
     }
 }

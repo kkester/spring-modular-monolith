@@ -8,7 +8,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class CatalogService {
+public class CatalogService implements GetCatalogs {
 
     private final CatalogRepository catalogRepository;
 
