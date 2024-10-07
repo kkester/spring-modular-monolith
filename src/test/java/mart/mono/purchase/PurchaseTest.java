@@ -4,7 +4,7 @@ import mart.mono.commerce.purchase.Purchase;
 import mart.mono.commerce.purchase.PurchaseCommandRepository;
 import mart.mono.commerce.purchase.PurchasedItem;
 import mart.mono.inventory.lib.Product;
-import mart.mono.inventory.product.ProductRepository;
+import mart.mono.inventory.product.ProductQueryRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -13,7 +13,6 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
 
-import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasKey;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -31,12 +30,12 @@ public class PurchaseTest {
     PurchaseCommandRepository purchaseCommandRepository;
 
     @Autowired
-    ProductRepository productRepository;
+    ProductQueryRepository productQueryRepository;
 
     @Test
     void getPurchasesTest() throws Exception {
 
-        Product product = productRepository.findAll().get(0);
+        Product product = productQueryRepository.findAll().get(0);
         PurchasedItem purchasedItem = PurchasedItem.builder()
                 .productId(product.getId())
                 .quantity(3)

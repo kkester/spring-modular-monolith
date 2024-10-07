@@ -8,7 +8,7 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class CatalogRepositoryAdapter implements CatalogRepository {
+public class CatalogRepositoryAdapter implements CatalogQueryRepository {
 
     private final CatalogJpaRepository catalogRepository;
 

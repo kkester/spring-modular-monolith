@@ -1,7 +1,7 @@
 package mart.mono.inventory.product;
 
 import lombok.RequiredArgsConstructor;
-import mart.mono.inventory.catalog.CatalogRepository;
+import mart.mono.inventory.catalog.CatalogQueryRepository;
 import mart.mono.inventory.lib.Product;
 import org.springframework.stereotype.Component;
 
@@ -11,10 +11,10 @@ import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
-public class ProductRepositoryAdapter implements ProductRepository {
+public class ProductRepositoryAdapter implements ProductQueryRepository {
 
     private final ProductJpaRepository productRepository;
-    private final CatalogRepository catalogRepository;
+    private final CatalogQueryRepository catalogQueryRepository;
 
     @Override
     public Optional<Product> findById(UUID productId) {
@@ -51,7 +51,7 @@ public class ProductRepositoryAdapter implements ProductRepository {
     private Product toProduct(ProductEntity productEntity) {
         return Product.builder()
                 .id(productEntity.getId())
-                .catalog(catalogRepository.findById(productEntity.getCatalog().getId()))
+                .catalog(catalogQueryRepository.findById(productEntity.getCatalog().getId()))
                 .name(productEntity.getName())
                 .description(productEntity.getDescription())
                 .imageSrc(productEntity.getImageSrc())

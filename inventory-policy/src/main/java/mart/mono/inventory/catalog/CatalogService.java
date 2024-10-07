@@ -10,9 +10,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CatalogService implements GetCatalogs {
 
-    private final CatalogRepository catalogRepository;
+    private final CatalogQueryRepository catalogQueryRepository;
 
     public List<Catalog> getAll() {
-        return catalogRepository.findAll();
+        return catalogQueryRepository.findAll();
     }
 }

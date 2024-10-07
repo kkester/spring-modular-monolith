@@ -17,32 +17,32 @@ import java.util.UUID;
 @Slf4j
 public class ProductService implements PurchaseProductNotifier, GetProducts {
 
-    private final ProductRepository productRepository;
+    private final ProductQueryRepository productQueryRepository;
 
     @NewSpan("product-by-id")
     public Product getProductById(UUID productId) {
         log.info("Getting product by id: {}", productId);
-        return productRepository.findById(productId)
+        return productQueryRepository.findById(productId)
             .orElseThrow(() -> new ResponseStatusException(HttpStatusCode.valueOf(404)));
     }
 
     public List<Product> getForCatalog(String catalogKey) {
-        return productRepository.findByCatalogId(catalogKey);
+        return productQueryRepository.findByCatalogId(catalogKey);
     }
 
     public List<Product> getAll() {
-        return productRepository.findAll();
+        return productQueryRepository.findAll();
     }
 
     public void decrementProductQuantity(UUID productId, int quantity) {
-        productRepository.findById(productId).ifPresent(product -> {
+        productQueryRepository.findById(productId).ifPresent(product -> {
             int currentQuantity = product.getQuantity();
             int newQuantity = currentQuantity - quantity;
             if (newQuantity < 0) {
                 return;
             }
             product.setQuantity(newQuantity);
-            productRepository.updateQuantity(product);
+            productQueryRepository.updateQuantity(product);
         });
     }
 

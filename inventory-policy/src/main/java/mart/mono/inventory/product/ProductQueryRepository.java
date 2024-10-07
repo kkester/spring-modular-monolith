@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface ProductRepository {
+public interface ProductQueryRepository {
     Optional<Product> findById(UUID productId);
     List<Product> findByCatalogId(String catalogKey);
     List<Product> findAll();

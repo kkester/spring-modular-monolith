@@ -30,14 +30,14 @@ class ProductRestControllerTest {
     ObjectMapper objectMapper;
 
     @MockBean
-    ProductRepository productRepository;
+    ProductQueryRepository productQueryRepository;
 
     @Test
     void getProductsTest() throws Exception {
         Product expectedProduct = Product.builder()
                 .id(UUID.randomUUID())
                 .build();
-        when(productRepository.findAll()).thenReturn(List.of(expectedProduct));
+        when(productQueryRepository.findAll()).thenReturn(List.of(expectedProduct));
 
         MockHttpServletRequestBuilder request = get("/api/products");
         String responseContent = mockMvc.perform(request)
