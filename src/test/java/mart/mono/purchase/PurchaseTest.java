@@ -1,10 +1,10 @@
 package mart.mono.purchase;
 
-import mart.mono.inventory.db.ProductEntity;
-import mart.mono.commerce.db.PurchaseEntity;
-import mart.mono.commerce.db.PurchasedItemEntity;
-import mart.mono.inventory.db.ProductRepository;
-import mart.mono.commerce.db.PurchaseRepository;
+import mart.mono.inventory.product.db.ProductEntity;
+import mart.mono.commerce.purchase.db.PurchaseEntity;
+import mart.mono.commerce.purchase.db.PurchasedItemEntity;
+import mart.mono.inventory.product.db.ProductRepository;
+import mart.mono.commerce.purchase.db.PurchaseRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;

@@ -1,9 +1,7 @@
-package mart.mono.inventory.web;
+package mart.mono.inventory.catalog;
 
 import lombok.RequiredArgsConstructor;
 import mart.mono.common.Catalog;
-import mart.mono.inventory.service.CatalogService;
-import mart.mono.inventory.db.CatalogEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

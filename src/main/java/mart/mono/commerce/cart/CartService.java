@@ -1,8 +1,9 @@
-package mart.mono.commerce.service;
+package mart.mono.commerce.cart;
 
 import lombok.RequiredArgsConstructor;
-import mart.mono.commerce.db.CartItemEntity;
-import mart.mono.commerce.db.CartRepository;
+import mart.mono.commerce.cart.db.CartItemEntity;
+import mart.mono.commerce.cart.db.CartRepository;
+import mart.mono.commerce.purchase.PurchasesService;
 import mart.mono.common.Product;
 import mart.mono.inventory.ProductRetriever;
 import org.springframework.stereotype.Service;

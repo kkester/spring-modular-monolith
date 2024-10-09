@@ -1,13 +1,12 @@
-package mart.mono.inventory.service;
+package mart.mono.inventory.catalog;
 
 import lombok.RequiredArgsConstructor;
 import mart.mono.common.Catalog;
-import mart.mono.inventory.db.CatalogEntity;
-import mart.mono.inventory.db.CatalogRepository;
+import mart.mono.inventory.catalog.db.CatalogEntity;
+import mart.mono.inventory.catalog.db.CatalogRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor

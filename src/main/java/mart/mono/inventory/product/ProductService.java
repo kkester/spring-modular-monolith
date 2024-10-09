@@ -1,12 +1,14 @@
-package mart.mono.inventory.service;
+package mart.mono.inventory.product;
 
 import io.micrometer.tracing.annotation.NewSpan;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import mart.mono.common.Product;
 import mart.mono.common.PurchaseEvent;
 import mart.mono.inventory.ProductRetriever;
-import mart.mono.inventory.db.ProductEntity;
-import mart.mono.inventory.db.ProductRepository;
+import mart.mono.inventory.catalog.CatalogService;
+import mart.mono.inventory.product.db.ProductEntity;
+import mart.mono.inventory.product.db.ProductRepository;
 import org.springframework.modulith.events.ApplicationModuleListener;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class ProductService implements ProductRetriever {
 
     private final ProductRepository productRepository;
@@ -24,6 +27,7 @@ public class ProductService implements ProductRetriever {
 
     @ApplicationModuleListener
     public void onPurchaseEvent(PurchaseEvent event) {
+        log.info("processing PurchaseEvent {}", event);
         decrementProductQuantity(event.getProductId(), event.getQuantity());
     }
 
@@ -71,6 +75,7 @@ public class ProductService implements ProductRetriever {
     @NewSpan
     @Override
     public Product getProductById(UUID productId) {
+        log.info("retrieving product by id {}", productId);
         return productRepository.findById(productId)
                 .map(this::toProduct)
                 .orElseThrow();

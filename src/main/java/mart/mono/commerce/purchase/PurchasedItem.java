@@ -1,4 +1,4 @@
-package mart.mono.commerce.service;
+package mart.mono.commerce.purchase;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

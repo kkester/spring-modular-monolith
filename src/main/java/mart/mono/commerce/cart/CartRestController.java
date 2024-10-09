@@ -1,9 +1,6 @@
-package mart.mono.commerce.web;
+package mart.mono.commerce.cart;
 
 import lombok.RequiredArgsConstructor;
-import mart.mono.commerce.db.CartItemEntity;
-import mart.mono.commerce.service.CartItem;
-import mart.mono.commerce.service.CartService;
 import mart.mono.common.Product;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

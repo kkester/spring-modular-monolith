@@ -1,4 +1,4 @@
-package mart.mono.commerce.db;
+package mart.mono.commerce.cart.db;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

@@ -1,31 +1,27 @@
-package mart.mono.commerce.db;
+package mart.mono.commerce.cart;
 
-import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import mart.mono.common.Product;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.util.UUID;
 
-
 @Data
-@Entity
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "cart_items")
-public class CartItemEntity {
+public class CartItem {
     @Id
     @GeneratedValue(generator = "uuid-hibernate-generator")
     @GenericGenerator(name = "uuid-hibernate-generator", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
 
-    private UUID productId;
+    private Product product;
 
     private Integer quantity;
 }

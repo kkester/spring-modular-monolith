@@ -1,4 +1,4 @@
-package mart.mono.commerce.db;
+package mart.mono.commerce.purchase.db;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

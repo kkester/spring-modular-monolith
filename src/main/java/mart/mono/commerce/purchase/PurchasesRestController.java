@@ -1,9 +1,6 @@
-package mart.mono.commerce.web;
+package mart.mono.commerce.purchase;
 
 import lombok.RequiredArgsConstructor;
-import mart.mono.commerce.db.PurchaseEntity;
-import mart.mono.commerce.service.Purchase;
-import mart.mono.commerce.service.PurchasesService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

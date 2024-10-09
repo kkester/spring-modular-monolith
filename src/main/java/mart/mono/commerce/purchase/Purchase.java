@@ -1,10 +1,9 @@
-package mart.mono.commerce.service;
+package mart.mono.commerce.purchase;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import mart.mono.commerce.db.PurchasedItemEntity;
 
 import java.util.ArrayList;
 import java.util.List;

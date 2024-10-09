@@ -1,4 +1,4 @@
-package mart.mono.inventory.db;
+package mart.mono.inventory.catalog.db;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

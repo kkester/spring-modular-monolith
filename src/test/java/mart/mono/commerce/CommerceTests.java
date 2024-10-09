@@ -1,7 +1,7 @@
 package mart.mono.commerce;
 
-import mart.mono.commerce.db.PurchaseEntity;
-import mart.mono.commerce.db.PurchaseRepository;
+import mart.mono.commerce.purchase.db.PurchaseEntity;
+import mart.mono.commerce.purchase.db.PurchaseRepository;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
