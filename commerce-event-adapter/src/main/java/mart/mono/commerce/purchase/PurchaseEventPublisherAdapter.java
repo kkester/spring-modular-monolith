@@ -1,7 +1,8 @@
 package mart.mono.commerce.purchase;
 
 import lombok.RequiredArgsConstructor;
-import mart.mono.inventory.lib.PurchaseEvent;
+import mart.mono.commerce.util.SessionUtil;
+import mart.mono.inventory.event.PurchaseEvent;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
@@ -12,9 +13,15 @@ import java.util.UUID;
 public class PurchaseEventPublisherAdapter implements PurchaseEventPublisher {
 
     private final ApplicationEventPublisher eventPublisher;
+    private final SessionUtil sessionUtil;
 
     @Override
     public void productPurchased(UUID productId, Integer quantity) {
-        eventPublisher.publishEvent(PurchaseEvent.builder().productId(productId).quantity(quantity).build());
+        PurchaseEvent purchaseEvent = PurchaseEvent.builder()
+                .sessionId(sessionUtil.getSessionId())
+                .productId(productId)
+                .quantity(quantity)
+                .build();
+        eventPublisher.publishEvent(purchaseEvent);
     }
 }

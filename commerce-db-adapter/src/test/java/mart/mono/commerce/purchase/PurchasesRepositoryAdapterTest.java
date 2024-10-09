@@ -18,7 +18,7 @@ class PurchasesRepositoryAdapterTest {
     PurchasesRepositoryAdapter purchasesRepositoryAdapter;
 
     @Test
-    void save() {
+    void saveTest() {
         PurchasedItem purchasedItem = PurchasedItem.builder()
                 .productId(UUID.randomUUID())
                 .quantity(5)

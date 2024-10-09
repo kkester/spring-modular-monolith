@@ -1,4 +1,4 @@
-package mart.mono.inventory.lib;
+package mart.mono.inventory.event;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,7 +11,9 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class PurchaseEvent {
+public class ProductRemovedFromCartEvent {
+    private String sessionId;
+    private UUID cartItemId;
     private UUID productId;
     private Integer quantity;
 }

@@ -1,6 +1,6 @@
 package mart.mono.inventory.product;
 
-import mart.mono.inventory.lib.PurchaseEvent;
+import mart.mono.inventory.event.PurchaseEvent;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

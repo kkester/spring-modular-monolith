@@ -1,5 +1,7 @@
 package mart.mono.commerce;
 
+import mart.mono.commerce.cart.CartEventPublisher;
+import mart.mono.commerce.cart.CartItem;
 import mart.mono.commerce.purchase.PurchaseEventPublisher;
 import mart.mono.inventory.lib.Product;
 import mart.mono.inventory.product.GetProducts;
@@ -43,4 +45,15 @@ public class CommerceDbApplication {
         return (productId, quantity) -> {
         };
     };
+
+    @Bean
+    CartEventPublisher cartEventPublisher() {
+        return new CartEventPublisher() {
+            @Override
+            public void productAddedToCart(UUID productId, Integer quantity) {}
+
+            @Override
+            public void productRemovedFromCart(CartItem cartItem) {}
+        };
+    }
 }

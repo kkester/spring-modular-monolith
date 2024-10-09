@@ -16,21 +16,27 @@ public class CartService implements GetCarts, CartCommands {
     private final CartQueryRepository cartQueryRepository;
     private final CartCommandRepository cartCommandRepository;
     private final PurchasesService purchasesService;
+    private final CartEventPublisher cartEventPublisher;
 
     public List<CartItem> get() {
         return cartQueryRepository.findAll();
     }
 
     public CartItem add(Product product) {
-        return cartCommandRepository.save(CartItem.builder()
-            .product(Product.builder().id(product.getId()).build())
-            .quantity(1)
-            .build());
+        CartItem savedCartItem = cartCommandRepository.save(CartItem.builder()
+                .product(Product.builder().id(product.getId()).build())
+                .quantity(1)
+                .build());
+        cartEventPublisher.productAddedToCart(savedCartItem.getProduct().getId(), savedCartItem.getQuantity());
+        return savedCartItem;
     }
 
     public void remove(UUID cartItemId) {
-        Optional<CartItem> cartItem = cartQueryRepository.findById(cartItemId);
-        cartItem.ifPresent(cartCommandRepository::delete);
+        Optional<CartItem> cartItemOptional = cartQueryRepository.findById(cartItemId);
+        cartItemOptional.ifPresent(cartItem -> {
+            cartCommandRepository.delete(cartItem);
+            cartEventPublisher.productRemovedFromCart(cartItem);
+        });
     }
 
     public void removeAll() {

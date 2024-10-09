@@ -1,4 +1,15 @@
+server:
+  servlet:
+    session:
+      cookie:
+        secure: true
+        http-only: true
+        same-site: lax
+      tracking-modes: COOKIE
+
 spring:
+  session:
+    timeout: 900
   application:
     name: monomart
   datasource:
