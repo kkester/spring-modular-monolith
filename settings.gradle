@@ -1,11 +1,1 @@
 rootProject.name = 'modular-monolith'
-
-include 'inventory-policy'
-include 'inventory-api-adapter'
-include 'inventory-db-adapter'
-include 'inventory-event-adapter'
-include 'commerce-policy'
-include 'commerce-api-adapter'
-include 'commerce-db-adapter'
-include 'commerce-event-adapter'
-include 'inventory-lib'

@@ -3,12 +3,12 @@ import {Product} from "../product/Product";
 
 export class CartApi {
   list(): Promise<CartItem[]> {
-    return fetch('/api/v1/cart')
+    return fetch('/api/cart')
       .then(response => response.json());
   }
 
   add(product: Product): Promise<CartItem> {
-    return fetch('/api/v1/cart', {
+    return fetch('/api/cart', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -19,11 +19,11 @@ export class CartApi {
   }
 
   remove(id: string): Promise<void> {
-    return fetch(`/api/v1/cart/${id}`, {method: 'PUT'})
+    return fetch(`/api/cart/${id}`, {method: 'PUT'})
       .then(response => response.json());
   }
 
   checkOut() {
-    fetch('/api/v1/cart/checkout', {method: 'POST'});
+    fetch('/api/cart/checkout', {method: 'POST'});
   }
 }

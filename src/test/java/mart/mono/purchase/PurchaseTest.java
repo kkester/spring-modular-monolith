@@ -1,15 +1,16 @@
 package mart.mono.purchase;
 
-import mart.mono.commerce.purchase.Purchase;
-import mart.mono.commerce.purchase.PurchaseCommandRepository;
-import mart.mono.commerce.purchase.PurchasedItem;
-import mart.mono.inventory.lib.Product;
-import mart.mono.inventory.product.ProductQueryRepository;
+import mart.mono.inventory.db.ProductEntity;
+import mart.mono.commerce.db.PurchaseEntity;
+import mart.mono.commerce.db.PurchasedItemEntity;
+import mart.mono.inventory.db.ProductRepository;
+import mart.mono.commerce.db.PurchaseRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -21,34 +22,36 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@Transactional
 public class PurchaseTest {
 
     @Autowired
     MockMvc mockMvc;
 
     @Autowired
-    PurchaseCommandRepository purchaseCommandRepository;
+    private PurchaseRepository purchaseRepository;
 
     @Autowired
-    ProductQueryRepository productQueryRepository;
+    private ProductRepository productRepository;
 
     @Test
     void getPurchasesTest() throws Exception {
 
-        Product product = productQueryRepository.findAll().get(0);
-        PurchasedItem purchasedItem = PurchasedItem.builder()
-                .productId(product.getId())
+        ProductEntity productEntity = productRepository.findAll().get(0);
+        PurchasedItemEntity purchasedItemEntity = PurchasedItemEntity.builder()
+                .productId(productEntity.getId())
                 .quantity(3)
                 .build();
-        Purchase purchase = Purchase.builder().items(List.of(purchasedItem)).build();
-        purchaseCommandRepository.save(purchase);
+        PurchaseEntity purchase = new PurchaseEntity();
+        purchase.applyItems(List.of(purchasedItemEntity));
+        purchaseRepository.save(purchase);
 
         mockMvc.perform(get("/api/purchases"))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$[0]", hasKey("id")))
             .andExpect(jsonPath("$[0]", hasKey("items")))
             .andExpect(jsonPath("$[0].items[0]", hasKey("id")))
-            .andExpect(jsonPath("$[0].items[0]", hasKey("productId")))
+            .andExpect(jsonPath("$[0].items[0]", hasKey("product")))
             .andExpect(jsonPath("$[0].items[0]", hasKey("quantity")))
             .andDo(print());
     }
